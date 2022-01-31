@@ -1,6 +1,3 @@
-from nextcord.ext import commands
-import discord, os, time
-
 class Moderation(commands.Cog):
 	@commands.has_permissions(kick_members=True)
 	@commands.command(pass_context = True)
