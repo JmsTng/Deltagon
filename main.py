@@ -7,6 +7,7 @@ import os, neversleep, discord, io, aiohttp
 from "../cogs/Command.py" import CommandPerms
 from "../cogs/Messages.py" import Messages
 from "../cogs/Moderation.py" import Moderation
+from "../cogs/Misc.py" import Miscellaneous
 
 # initialize bot
 intents = discord.Intents.default()
@@ -32,5 +33,12 @@ except:
 @bot.event
 async def on_ready():
   print(f"Ready! Started as {bot.user}.")
+
+
+# add cogs
+bot.add_cog(CommandPerms(bot))
+bot.add_cog(Messages(bot))
+bot.add_cog(Moderation(bot))
+bot.add_cog(Miscellaneous(bot))
   
 bot.run(token)  
