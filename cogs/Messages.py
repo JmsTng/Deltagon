@@ -1,23 +1,33 @@
 class Messages(commands.Cog):
 	@commands.command()
-	async def dump(self, ctx):
-		if "<#" in ctx.message.content:
-			channel = ctx.message.content.split("<#")[1]
-			channel = channel.split(">")[0]
-			sendable = discord.utils.get(bot.get_all_channels(), id=int(channel))
-			if len(ctx.message.attachments) > 0:
-				attachment = ctx.message.attachments[0]
-				e = discord.Embed(description=ctx.message.content.split(f"delta:dump <#{channel}>")[1] + f" - {ctx.message.author.mention}")
-				e.set_image(url=str(attachment).split("url='")[1].split("'>")[0])
-				await sendable.send(embed=e)
-			else:
-				await sendable.send(ctx.message.content.split(f"delta:dump <#{channel}>")[1] + f" - {ctx.message.author.mention}")
+	async def dump(self, ctx, channel, content=None):
+		if channel.startswith("<#"):
+			id = int(channel[2:-1])
+			channel = discord.utils.get(bot.get_all_channels(), id=id)
+			if content:
+				f = []
+				if len(ctx.message.attachments) > 0:
+					for file in ctx.message.attachments:
+						async with aiohttp.ClientSession() as ses:
+							async with ses.get(file.url) as resp:
+								respstr = str(resp)
+								respstr = respstr.split(">")[0].split("[")[1][0:3]
+								if respstr != "200":
+									await ctx.send("There was a problem with the file.")
+									return
+								data = io.BytesIO(await resp.read())
+								f.append(discord.File(data, file.filename))
+				await channel.send(content, files=f)
+			elif ctx.message.reference:
+				await channel.send(ctx.message.reference.resolved.content)
 		else:
-			await ctx.channel.send("Pass a channel (#channel) to send to.")
+			await ctx.send("Pass a channel (#channel) to send to."
 		
 	@commands.command(aliases=["bm"])
 	async def bookmark(self, ctx):
 		replies = ctx.message.reference
+		if not replies:
+			return await ctx.send("Reply to a message *then* run this command.")
 		reply_id = replies.message_id
 		link = f"https://discord.com/channel/{ctx.message.guild.id}/{ctx.message.channel.id}/{reply_id}"
 		channel = await ctx.author.create_dm()
