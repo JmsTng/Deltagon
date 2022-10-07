@@ -23,7 +23,7 @@ try:
 	db["blocklist"]
 except:
 	db["blocklist"] = {}
-	for i in commandlist:
+	for i in cmdl:
 		try:
 			db["blocklist"][i]
 		except:
