@@ -1,3 +1,5 @@
+[![Python application](https://github.com/JmsTng/Deltagon/actions/workflows/python-app.yml/badge.svg)](https://github.com/JmsTng/Deltagon/actions/workflows/python-app.yml)
+
 # Deltagon
 ## About
 Deltagon is a moderation/utility bot with many useful features you won't see on other options:
