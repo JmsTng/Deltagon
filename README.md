@@ -1,4 +1,4 @@
-[![Python application](https://github.com/JmsTng/Deltagon/actions/workflows/python-app.yml/badge.svg)](https://github.com/JmsTng/Deltagon/actions/workflows/python-app.yml)
+<!--- [![Python application](https://github.com/JmsTng/Deltagon/actions/workflows/python-app.yml/badge.svg)](https://github.com/JmsTng/Deltagon/actions/workflows/python-app.yml) --->
 
 # Deltagon
 ## About
